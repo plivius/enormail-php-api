@@ -20,7 +20,7 @@ abstract class Base {
     * @param object $rest em_rest object
     * @return nill
     */
-    public function __construct(Enormail\Rest $rest)
+    public function __construct(Rest $rest)
     {
         $this->rest = $rest;
     }
