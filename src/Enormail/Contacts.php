@@ -44,10 +44,10 @@ class Contacts extends Base {
     * @param string $name the contact's name
     * @param string $email the contact's e-mail address
     * @param array $fields an array with optional fields, example: array('lastname' => 'Contact lastname', 'city' => 'City name')
-    * @param integer $activate_autoresponder a flag to activate the autoresponder when the contact is added (1 or 0, default 0)
+    * @param integer $activate_autoresponder a flag to activate the autoresponder when the contact is added (1 or 0, default 1)
     * @return string results (json|xml)
     */
-    public function add($listid, $name, $email, array $fields = null, $activate_autoresponder = 0)
+    public function add($listid, $name, $email, array $fields = null, $activate_autoresponder = 1)
     {
         return $this->rest->post("/contacts/{$listid}.{$this->format}", array(
             'name' => $name,
