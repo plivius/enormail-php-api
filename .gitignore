@@ -1,0 +1,13 @@
+### project/IDE files
+.settings
+.buildpath
+.project
+.DS_Store
+*.tmp
+.idea
+
+### packages
+/vendor*/
+
+## phpstan
+/src/phpstan.log

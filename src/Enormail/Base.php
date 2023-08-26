@@ -12,13 +12,15 @@ abstract class Base {
 	* Default response format
 	*/
     public $format = 'json';
+
+    protected $rest;
     
     /**
     * Constructor
     *
     * @access public
     * @param object $rest em_rest object
-    * @return nill
+    * @return void
     */
     public function __construct(Rest $rest)
     {
