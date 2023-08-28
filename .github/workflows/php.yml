@@ -18,7 +18,7 @@ jobs:
     - name: Setup PHP with specific version (phpstan requires 7.2+)
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '5.3'
+        php-version: '7.2'
         extensions: ext-curl, ext-json
 
     - name: Validate composer.json and composer.lock
@@ -28,7 +28,7 @@ jobs:
       id: composer-cache
       uses: actions/cache@v2
       with:
-        php-version: '5.3'
+        php-version: '7.2'
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
