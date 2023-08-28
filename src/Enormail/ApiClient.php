@@ -22,7 +22,7 @@ class ApiClient {
 	 * The constructor
 	 * 
 	 * @access  public
-	 * @return  nill
+	 * @return  void
 	 */
     public function __construct($key, $format = 'json')
     {

@@ -45,16 +45,26 @@ class Contacts extends Base {
     * @param string $email the contact's e-mail address
     * @param array $fields an array with optional fields, example: array('lastname' => 'Contact lastname', 'city' => 'City name')
     * @param integer $activate_autoresponder a flag to activate the autoresponder when the contact is added (1 or 0, default 1)
+    * @param array $tags an array with optional tags, example: array(0 => 'tag1', 1 => 'tag2')
     * @return string results (json|xml)
     */
-    public function add($listid, $name, $email, array $fields = null, $activate_autoresponder = 1)
+    public function add($listid, $name, $email, array $fields = null, $activate_autoresponder = 1, array $tags = null)
     {
-        return $this->rest->post("/contacts/{$listid}.{$this->format}", array(
+        $payload = array(
             'name' => $name,
             'email' => $email,
-            'fields' => $fields, 
+            'fields' => $fields,
             'activate_autoresponder' => $activate_autoresponder
-        ));
+        );
+
+        if ($tags) {
+            $payload['tags'] = $tags;
+        } elseif (isset($payload['fields']['tags'])) {
+            $payload['tags'] = $payload['fields']['tags'];
+        }
+        unset($payload['fields']['tags']);
+
+        return $this->rest->post("/contacts/{$listid}.{$this->format}", $payload);
     }
     
     /**
@@ -67,20 +77,30 @@ class Contacts extends Base {
     * @param array $fields an array with optional fields, example: array('lastname' => 'Contact lastname', 'city' => 'City name')
     * @param string $new_email the contact's new e-email address (optional)
     * @param string $move_to_listid the list of the list you want the contact to move to (optional)
+    * @param array $tags an array with optional tags, example: array(0 => 'tag1', 1 => 'tag2')
     * @return string results (json|xml)
     */
-    public function update($listid, $name, $email, array $fields = null, $new_email = null, $move_to_listid = null)
+    public function update($listid, $name, $email, array $fields = null, $new_email = null, $move_to_listid = null, array $tags = null)
     {
         $aData['name'] = $name;
         $aData['fields'] = $fields;
-        
-        if (!is_null($new_email))
-            $aData['email'] = $new_email;
-        
-        if (!is_null($move_to_listid))
-            $aData['listid'] = $move_to_listid;
 
-        return $this->rest->put("/contacts/{$listid}.{$this->format}?email={$email}", $aData);
+        if ($tags) {
+            $aData['tags'] = $tags;
+        } elseif (isset($aData['fields']['tags'])) {
+            $aData['tags'] = $aData['fields']['tags'];
+        }
+        unset($aData['fields']['tags']);
+
+        if (!is_null($new_email)) {
+            $aData['new_email'] = $new_email;
+        }
+
+        if (!is_null($move_to_listid)) {
+            $aData['listid'] = $move_to_listid;
+        }
+
+        return $this->rest->put("/contacts/{$listid}.{$this->format}?email=".urldecode(urlencode($email)), $aData);
     }
     
     /**

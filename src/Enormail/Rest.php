@@ -133,7 +133,9 @@ class Rest {
 }
 
 class Response {
-    
+
+    protected $http_code, $http_response;
+
     public function __construct($response)
     {
         // Set response
